@@ -45,8 +45,26 @@ func variableFun(num int) {
 	fmt.Println(num)
 }
 
+// 6
+// 函数既然是一种数据类型,因此在Go中,函数可以作为形参,并且调用(把函数本身当做一种数据类型)
 func argsIsFun(num1 int, num2 int, testFunc func(int)) {
 	fmt.Println("argsIsFun")
+}
+
+// 7
+// 给函数起别名
+type myfun func(int)
+
+func argsIsFun2(num1 int, num2 int, testFunc myfun) {
+	fmt.Println("argsIsFun")
+}
+
+// 8
+// 支持对函数返回值命名
+func modReturnName(num1 int, num2 int) (rs2 int, rs1 int) {
+	rs1 = num1 + num2
+	rs2 = num1 - num2
+	return
 }
 
 func main() {
@@ -79,5 +97,26 @@ func main() {
 	fmt.Println(a) // 输出 0xde860
 	a(10)          // 输出 10
 
+	//6==========================================
 	argsIsFun(1, 2, variableFun) // 输出 argsIsFun
+
+	//7==========================================
+	// 为了简化数据类型定义,Go支持自定义数据类型
+	// 基本语法: type 自定义数据类型名 数据类型
+	// 可以理解为: 相当于起了一个别名
+	type myInt int
+
+	var num1 myInt = 30
+	fmt.Println(num1) // 输出 30
+
+	var num2 int = 10
+	//num2 = num1  //虽然都是整形,但是go在编译时,还是认为myInt和int不是同一种数据类型
+	num2 = int(num1)
+	fmt.Println(num2) // 输出 30
+
+	//函数别名
+	argsIsFun2(1, 2, variableFun)
+
+	//8==========================================
+	fmt.Println(modReturnName(1, 2))
 }
